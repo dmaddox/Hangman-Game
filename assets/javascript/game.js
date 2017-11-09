@@ -1,72 +1,142 @@
 
 // Variables
-var word = "Hello world"; // Winning word
-var guessesLeft = 14; // Number of guesses remaining
-var wrongLetters; // All wrong guessed letters
-var usedLetters;  //All the correct guessed letters
-var gameOn = true; // Is the game still on / ie: did the user guess all of the letters, yet?
-var guessedArray = [];
-var space = "_____ _____";
+var hangmanArray = ["afraid", "blood", "cadaver", "coffin", "monster", "spooky", "tombstone", "wicked"]; 
+var word; // Winning word
+var guessesLeft = 12; // Number of guesses remaining
+var miss = 0; // All wrong guessed letters
+var hit = 0;  //All the correct guessed letters
+var wins=0; //score of # of wins
+var guessesArray = [];
+var missedArray = [];
+var userGuess; // the user's guess
+var hangmanWord = [];
 
+newGame();
 
-// Setup Document & Console
+// New game setup & reset
+function newGame() {
+	word = hangmanArray[Math.floor(Math.random() * hangmanArray.length)]; // Winning word
+	guessesLeft = 12; // Number of guesses remaining
+	miss = 0; // All wrong guessed letters
+	hit = 0;  //All the correct guessed letters
+	guessesArray = [];
+	missedArray = [];
+	userGuess; // the user's guess
+	hangmanWord = [];
 
-	// Display the empty word.
-	console.log(space);
-
-	// Display how many guesses are left.
-	console.log("You have 15 guesses.");
-
-
-// Get the space ready for filling in
-	// Turn the space into an array
-	var spaceArray = space.split("");
-
-
-
-// Get the winning word ready for comparison
-	// First, the word needs to be changed to uppercase
-	var word = word.toUpperCase();
-	// // Next, Remove spaces from the string
-	// var word = word.split(' ').join('');
-	// Third, the word needs to be broken into an array
-	var wordArray = word.split("");
-
-
-// Ask a user to guess a letter & store it as a variable.
-function guess() {
-	var guess = prompt("Guess a letter.");
-	//Control the input, requiring a single letter
-	// control the input, forcing upper-case
-	var guess = guess.toUpperCase();
-		// Now that the guess is ready for comparison, store it in the guessedArray
-		guessedArray.push(guess);
-
-		// Check if user already guessed the letter. 
-			// Check if the guessed letter is in the word.
-			if (word.indexOf(guess) === -1) {
-				console.log ("You got it wrong :(");
-				
-				// Display how many guesses are left.
-				// Add new guess to list of wrong-guessed letters  -- NEEDED --
-				console.log("You have " + guessesLeft + " guesses left.");
-			} else {
-				console.log ("You got a letter!!!");
-				// Display the letter in the winning hangman space -- NEEDED --
-					// Winning hangman spaces can be indexes of an array
-					// These spaces match the index of the wordArray, so it can be identified where the winning letter should go!
-				
-				// Display how many guesses are left.
-				console.log("You have " + guessesLeft + " guesses left.");
-			}
+	document.onkeyup = function(event) {
+		firstPrint();
+		game();
+	};
 }
 
-// Repeat the prompt until the user has run out of guesses or has guessed the word.
-	// Has the user guessed the word, yet? If yes, change gameOn = false; If no, keep gameOn: true;
-
-
-	// Prompt repeat statement
-	for (guessesLeft; guessesLeft >= 0 && gameOn; guessesLeft--) {
-		guess();
+function firstPrint() {
+	//Hangman Word
+	for (i =0; i < word.length; i++) {
+		hangmanWord.push("-");
+		document.getElementById("hagmanWord").textContent = hangmanWord.join(""); //.join takes out array separators
 	}
+	//Score
+	document.getElementById("guesses-left-text").textContent = guessesLeft;
+	//Missed letters
+	document.getElementById("missed-letters-text").textContent = missedArray;
+	//alert messaging
+	document.getElementById("alert-text").textContent = "";
+}
+
+
+function game() {
+
+	//Listen for the user pressing any key & store it as lowercase
+	document.onkeyup = function(event) {
+		userGuess = event.key;
+		userGuess = userGuess.toLowerCase();
+		document.getElementById("alert-text").textContent = "";
+		verifyValid();
+		}
+}
+
+function verifyValid() {
+	//Check if it is a valid letter
+	if (userGuess >= String.fromCharCode(97) && userGuess <= String.fromCharCode(123)) { // <-- FIX THIS - its accepting other keys
+		verifyUnique();
+	} else {
+		document.getElementById("alert-text").textContent = "Guess a letter!";
+		}
+	}
+
+//userGuess is unique
+function verifyUnique() {
+if (guessesArray.indexOf(userGuess) === -1) {
+		guessesArray.push(userGuess);
+		// If there are guessesLeft, then run compare
+		if (guessesLeft > 0) {
+			compare();
+		} else {
+			console.log("game Over");
+			document.getElementById("guesses-left-text").textContent = 0;
+			document.getElementById("alert-text").textContent = "Game Over! Press any key to play again.";
+			newGame();
+		}
+	} else {
+		guessesArray.push(userGuess);
+		document.getElementById("alert-text").textContent = "You've already guessed that letter!";
+	}
+}
+
+
+//is userGuess in the word?
+function compare() {
+	//change the winning word & the user guess to lowercase
+	word = word.toLowerCase();
+	// If the letter is in the word, display the letter	
+	if (word.indexOf(userGuess) !== -1) {
+			correct();
+			print();
+		} else { // If the letter is not in the word, add the word to the missed array & decrease gussesLeft.
+			guessesLeft--;
+			missedArray.push(userGuess);
+			print();
+		}
+	}
+
+//Does userGuess match any letter in the word?
+function correct() {
+	// look for where the user guess matches letters in the word
+	for (k = 0; k < word.length; k++) {
+		if (word[k] === userGuess) {
+			hangmanWord[k] = userGuess;
+			//display the correctly guessed letter in the Hangman spaces
+			document.getElementById("hagmanWord").textContent = hangmanWord.join(""); //.join takes out array separators
+			//If winner, then nothing...
+			if (hangmanWord.join("") == word) {
+				document.getElementById("hagmanWord").textContent = hangmanWord.join("");
+				document.getElementById("alert-text").textContent = "YOU WIN!!! Press any key to play again.";
+				wins++;
+				document.getElementById("wins-text").textContent = wins;
+				newGame();
+			}
+		} //else nothing.
+	}
+}
+
+// print all changes to the screen 
+function print() {
+	document.getElementById("guesses-left-text").textContent = guessesLeft;
+	document.getElementById("missed-letters-text").textContent = missedArray;
+}
+
+
+
+
+
+
+//REQUIREMENTS MISSING
+	//do not decrease points if users guess 'enter' or 'tab' type keys, etc.
+	//reset game w/ new word after game is over
+	//stop keeping score if the user won the game
+	
+
+
+
 
