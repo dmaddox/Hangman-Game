@@ -20,7 +20,7 @@ h2 {
 
 #spaces {
 	min-width: 300px;
-	min-height: 75px;
+	min-height: 90px;
 }
 .container {
 	margin: 0 auto;
@@ -37,7 +37,7 @@ h2 {
 		font-size: 24px;
 }
 #missed-letters-text {
-	letter-spacing: 2px;
+	letter-spacing: 8px;
 }
 #scoring {
 	overflow: auto;

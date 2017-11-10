@@ -40,7 +40,7 @@ function firstPrint() {
 	//Score
 	document.getElementById("guesses-left-text").textContent = guessesLeft;
 	//Missed letters
-	document.getElementById("missed-letters-text").textContent = missedArray;
+	document.getElementById("missed-letters-text").textContent = missedArray.join("");
 	//alert messaging
 	document.getElementById("alert-text").textContent = "";
 }
@@ -125,7 +125,7 @@ function correct() {
 // print all changes to the screen 
 function print() {
 	document.getElementById("guesses-left-text").textContent = guessesLeft;
-	document.getElementById("missed-letters-text").textContent = missedArray;
+	document.getElementById("missed-letters-text").textContent = missedArray.join("");
 }
 
 
