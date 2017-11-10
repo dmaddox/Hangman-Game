@@ -1,6 +1,6 @@
 
 // Variables
-var hangmanArray = ["afraid", "blood", "cadaver", "coffin", "monster", "spooky", "tombstone", "wicked"]; 
+var hangmanArray = ["afraid", "blood", "cadaver", "coffin", "monster", "murder", "spooky", "tombstone", "wicked"]; 
 var word; // Winning word
 var guessesLeft = 12; // Number of guesses remaining
 var miss = 0; // All wrong guessed letters
@@ -12,6 +12,7 @@ var userGuess; // the user's guess
 var hangmanWord = [];
 
 newGame();
+document.getElementById("alert-text").textContent = "Press any key to get started...if you dare!";
 
 // New game setup & reset
 function newGame() {
@@ -34,7 +35,7 @@ function firstPrint() {
 	//Hangman Word
 	for (i =0; i < word.length; i++) {
 		hangmanWord.push("-");
-		document.getElementById("hagmanWord").textContent = hangmanWord.join(""); //.join takes out array separators
+		document.getElementById("hangmanWord").textContent = hangmanWord.join(""); //.join takes out array separators
 	}
 	//Score
 	document.getElementById("guesses-left-text").textContent = guessesLeft;
@@ -102,22 +103,23 @@ function compare() {
 
 //Does userGuess match any letter in the word?
 function correct() {
-	// look for where the user guess matches letters in the word
+	//look for where the user guess matches letters in the word
 	for (k = 0; k < word.length; k++) {
 		if (word[k] === userGuess) {
 			hangmanWord[k] = userGuess;
 			//display the correctly guessed letter in the Hangman spaces
-			document.getElementById("hagmanWord").textContent = hangmanWord.join(""); //.join takes out array separators
-			//If winner, then nothing...
-			if (hangmanWord.join("") == word) {
-				document.getElementById("hagmanWord").textContent = hangmanWord.join("");
-				document.getElementById("alert-text").textContent = "YOU WIN!!! Press any key to play again.";
-				wins++;
-				document.getElementById("wins-text").textContent = wins;
-				newGame();
-			}
-		} //else nothing.
+			document.getElementById("hangmanWord").textContent = hangmanWord.join(""); //.join takes out array separators
+		} 	
+	};
+	//If winner, game over...
+	if (hangmanWord.join("") == word) {
+		document.getElementById("hangmanWord").textContent = hangmanWord.join("");
+		document.getElementById("alert-text").textContent = "YOU WIN!!! Press any key to play again.";
+		wins++;
+		document.getElementById("wins-text").textContent = wins;
+		newGame();
 	}
+	
 }
 
 // print all changes to the screen 

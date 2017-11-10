@@ -4,15 +4,31 @@
 	<title>Hangman</title>
 	<link rel="stylesheet" type="text/css" href="assets/css/reset.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
-		
+	<link href="https://fonts.googleapis.com/css?family=Griffy" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300" rel="stylesheet">
 </head>
 <body>
 	
-	<h1 id="hagmanWord"></h1>
-	<h1><span id="guesses-left-text">Press any key to get started.</span></h1>
-	<h2>Missed letters: <span id="missed-letters-text"></span></h2>
-	<h1>Wins: <span id="wins-text"></span></h1>
-	<h1><span id="alert-text"></span></h1>
+	<div class="container">
+		<section id="spaces">
+			<h1 id="hangmanWord"></h1>
+		</section>
+		<section id="alerting">
+			<h2><span id="alert-text"></span></h2>
+		</section>
+		<section id="scoring">
+			<div id="leftColumn">
+				<h2>Guesses remaining: <span id="guesses-left-text"></span></h2>
+			</div>
+			<div id="rightColumn">
+				<h2>Wins: <span id="wins-text"></span></h2>
+			</div>
+		</section>
+		<section id="missing">
+			<h2>Missed letters: <br>
+				<span id="missed-letters-text"></span></h2>
+		</section>
+	</div>
 
 	<script type="text/javascript" src="assets/javascript/game.js"></script>	
 

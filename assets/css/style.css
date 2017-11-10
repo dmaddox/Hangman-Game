@@ -1,0 +1,64 @@
+html, body {
+    height: 100%;
+	background-color: black;
+	color: white;
+	margin-top: 50px;
+	padding: 25px;
+}
+
+h1 {
+	font-family: 'Griffy', serif, cursive;
+	font-size: 65px;
+	letter-spacing: 2px;
+	text-align: center;
+}
+
+h2 {
+	font-family: 'Open Sans', sans-serif;
+	font-style: light;
+}
+
+#spaces {
+	min-width: 300px;
+	min-height: 75px;
+}
+.container {
+	margin: 0 auto;
+	max-width: 960px;
+}
+
+#alerting {
+	height: 48px;
+	text-align: center;
+	color: red;
+}
+
+#alerting h2 {
+		font-size: 24px;
+}
+#missed-letters-text {
+	letter-spacing: 2px;
+}
+#scoring {
+	overflow: auto;
+	padding: 50px;
+}
+#leftColumn {
+	float: left;
+}
+#rightColumn {
+	float: right;
+}
+#missing h2 {
+	text-align: center;
+	line-height: 48px;
+	font-size: 24px;
+}
+
+@media screen and (max-width: 640px) {
+    #leftColumn, #rightColumn {
+        float: none;
+        width: 100%;
+        text-align: center;
+    }
+}
